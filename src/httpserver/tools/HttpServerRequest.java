@@ -6,7 +6,7 @@ import java.util.Map;
 public class HttpServerRequest {
 
 	private String host;
-	private String url;
+	private URL url;
 	private RequestMethod requestMethod;
 	private int error;
 
@@ -25,11 +25,11 @@ public class HttpServerRequest {
 		this.error = error;
 	}
 
-	public String getUrl() {
+	public URL getUrl() {
 		return url;
 	}
 	
-	public void setUrl(String url) {
+	public void setUrl(URL url) {
 		this.url = url;
 	}
 
@@ -64,7 +64,7 @@ public class HttpServerRequest {
 	@Override
 	public String toString() {
 		String tmp = "";
-		
+		// System.out.println("Ja ica aussi pardon "+params.size());
 		for(Map.Entry<String, String> entry: params.entrySet())
 			tmp += entry.getKey() + ":" + entry.getValue() + "\n";
 		

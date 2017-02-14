@@ -8,11 +8,25 @@ public class HttpServerResponse {
 	private String requestUrl;
 	private RequestMethod requestMethod;
 	private String remoteAddress;
-	private ContentType contentType;
+	private String contentType;
 	private Date date;
+	private String content;
+	private int error = -1;
 	
-	public HttpServerResponse() {
-		
+	public int getError() {
+		return error;
+	}
+
+	public void setError(int error) {
+		this.error = error;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
 	}
 
 	public StatusCode getStatusCode() {
@@ -47,11 +61,11 @@ public class HttpServerResponse {
 		this.remoteAddress = remoteAddress;
 	}
 
-	public ContentType getContentType() {
+	public String getContentType() {
 		return contentType;
 	}
 
-	public void setContentType(ContentType contentType) {
+	public void setContentType(String contentType) {
 		this.contentType = contentType;
 	}
 
@@ -63,6 +77,15 @@ public class HttpServerResponse {
 		this.date = date;
 	}
 	
-	
-
+	@Override
+	public String toString() {
+		if(error != -1)
+			return "HTTP/1.1 " + error + "\n";
+		
+		String res = "HTTP/1.1 200 OK\n" 
+				+ "Date: " + getDate() + "\n"
+				+ "Content-Type:" + contentType + "\n\n"
+				+ getContent();
+		return res;
+	}
 }
