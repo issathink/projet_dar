@@ -1,16 +1,16 @@
 package httpserver.concurrency;
 
+import httpserver.AnalyseRequest;
+import httpserver.tools.HttpServerRequest;
+import httpserver.tools.HttpServerResponse;
+import httpserver.tools.UrlRouter;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
-
-import httpserver.AnalyseRequest;
-import httpserver.format.Formatter;
-import httpserver.tools.HttpServerRequest;
-import httpserver.tools.HttpServerResponse;
 
 public class HandleClient extends Thread {
 	AssocPool pool;
@@ -45,11 +45,10 @@ public class HandleClient extends Thread {
 				while (true) {
 					String line;
 					line = buff.readLine();
-					// System.out.println("read: " + line +" et "+client.getPort());
 
 					if ("".equals(line)) {
-						HttpServerRequest requestHttp = AnalyseRequest.analyseRequest(request);
-						HttpServerResponse respHttp = Formatter.formatHttpRequest(requestHttp);
+						HttpServerRequest httpRequest = AnalyseRequest.analyseRequest(request);
+						HttpServerResponse respHttp = UrlRouter.route(httpRequest);
 						out.println(respHttp.toString());
 						out.close();
 						buff.close();

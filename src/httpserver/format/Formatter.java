@@ -25,7 +25,6 @@ public class Formatter {
 	}
 
 	public static HttpServerResponse formatTextPlain(HttpServerRequest req) {
-
 		HttpServerResponse response = new HttpServerResponse();
 		response.setError(req.getError());
 		response.setContentType("text/plain");
