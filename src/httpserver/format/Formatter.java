@@ -24,7 +24,7 @@ public class Formatter {
 		return formatTextPlain(req);
 	}
 
-	public static HttpServerResponse formatTextPlain(HttpServerRequest req) {
+	private static HttpServerResponse formatTextPlain(HttpServerRequest req) {
 		HttpServerResponse response = new HttpServerResponse();
 		response.setError(req.getError());
 		response.setContentType("text/plain");
@@ -39,7 +39,7 @@ public class Formatter {
 		return response;
 	}
 
-	public static HttpServerResponse formatTextHtml(HttpServerRequest req) {
+	private static HttpServerResponse formatTextHtml(HttpServerRequest req) {
 		HttpServerResponse response = new HttpServerResponse();
 		response.setError(req.getError());
 		response.setContentType("text/html");
@@ -54,7 +54,7 @@ public class Formatter {
 		return response;
 	}
 
-	public static HttpServerResponse formatApplicationJson(HttpServerRequest req) {
+	private static HttpServerResponse formatApplicationJson(HttpServerRequest req) {
 		HttpServerResponse response = new HttpServerResponse();
 		response.setError(req.getError());
 		response.setContentType("application/json");

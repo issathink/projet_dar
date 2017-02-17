@@ -64,7 +64,7 @@ public class HttpServerRequest {
 	@Override
 	public String toString() {
 		String tmp = "";
-		// System.out.println("Ja ica aussi pardon "+params.size());
+		// System.out.println("Jai ca aussi pardon "+params.size());
 		for(Map.Entry<String, String> entry: params.entrySet())
 			tmp += entry.getKey() + ":" + entry.getValue() + "\n";
 		

@@ -1,4 +1,6 @@
-[
-	"list": "list.ListServlet",
-	"p": "list.ListServlet"
-]
+{
+	"mappings": [
+		{ "list": "list.ListServlet" },
+		{ "p": "list.ListServlet" }
+	]
+}
