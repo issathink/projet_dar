@@ -3,7 +3,7 @@ package httpserver.concurrency;
 import httpserver.AnalyseRequest;
 import httpserver.tools.HttpServerRequest;
 import httpserver.tools.HttpServerResponse;
-import httpserver.tools.UrlRouter;
+import httpserver.urlrouting.URLRouter;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -25,14 +25,13 @@ public class HandleClient extends Thread {
 
 		while (true) {
 			synchronized (pool.clients) {
-
-				if (pool.clients.size() == 0)
+				if (pool.clients.size() == 0) {
 					try {
 						pool.clients.wait();
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-
+				}
 				client = pool.clients.remove(0);
 				System.out.println("Je vais traiter le client " + client.getPort());
 			}
@@ -48,7 +47,7 @@ public class HandleClient extends Thread {
 
 					if ("".equals(line)) {
 						HttpServerRequest httpRequest = AnalyseRequest.analyseRequest(request);
-						HttpServerResponse respHttp = UrlRouter.route(httpRequest);
+						HttpServerResponse respHttp = URLRouter.route(httpRequest);
 						out.println(respHttp.toString());
 						out.close();
 						buff.close();
@@ -57,17 +56,15 @@ public class HandleClient extends Thread {
 					}
 
 					if (line != null) {
-						request += line+"\n";
+						request += line + "\n";
 					} else if (client.isClosed() || line == null) {
 						break;
 					}
 				}
-
-				System.out.println("J'ai fini avec ce client. port: " + client.getPort()+" \n");
+				System.out.println("J'ai fini avec ce client. port: " + client.getPort() + " \n");
 			} catch (IOException e) {
 				e.printStackTrace();
-			} finally {
-			}
+			} finally {}
 		}
 	}
 }

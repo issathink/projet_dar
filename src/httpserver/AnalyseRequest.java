@@ -2,8 +2,8 @@ package httpserver;
 
 import httpserver.tools.HttpServerRequest;
 import httpserver.tools.RequestMethod;
-import httpserver.tools.URL;
 import httpserver.tools.Util;
+import httpserver.urlrouting.URL;
 
 public class AnalyseRequest {
 

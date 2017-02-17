@@ -9,7 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Util {
-
+	
 	public static RequestMethod[] getRequestMethodHeaders() {
 		return RequestMethod.values();
 	}
@@ -21,8 +21,7 @@ public class Util {
 
 			for (String str : fileContent)
 				strBuilder.append(str);
-			return new JSONObject(strBuilder.toString());
-
+			return (JSONObject) (new JSONObject(strBuilder.toString())).get("mappings");
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
@@ -31,5 +30,4 @@ public class Util {
 			return null;
 		}
 	}
-
 }

@@ -3,12 +3,15 @@ package httpserver.tools;
 import java.util.HashMap;
 import java.util.Map;
 
+import httpserver.urlrouting.URL;
+
 public class HttpServerRequest {
 
 	private String host;
 	private URL url;
 	private RequestMethod requestMethod;
 	private int error;
+	private String body;
 
 	private Map<String, String> params;
 	
@@ -17,6 +20,14 @@ public class HttpServerRequest {
 		error = -1;
 	}
 	
+	public String getBody() {
+		return body;
+	}
+
+	public void setBody(String body) {
+		this.body = body;
+	}
+
 	public int getError() {
 		return error;
 	}
