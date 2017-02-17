@@ -1,15 +1,4 @@
-{
-	"version": 1.0,
-	"mappings":
-	[
-		"ListPoint2D": [
-			"list": [],
-			"p": [],
-			"p": ["id"],
-			"p": ["x"],
-			"p": ["id", "y"],
-			"p": ["id", "x", "y"]
-		]
-	]
-
-}
+[
+	"list": "list.ListServlet",
+	"p": "list.ListServlet"
+]
