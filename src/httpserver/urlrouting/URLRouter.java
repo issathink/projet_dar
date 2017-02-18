@@ -5,32 +5,43 @@ import httpserver.tools.HttpServerRequest;
 import httpserver.tools.HttpServerResponse;
 import httpserver.tools.Util;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class URLRouter {
 	private static final String MAPPING_FILE = "mapping.json";
-	private static JSONObject mapping;
+	private static JSONArray mapping;
 
 	public static HttpServerResponse route(HttpServerRequest request) {
 		mapping = Util.getMapping(MAPPING_FILE);
 		System.out.println(mapping.toString());
-
-		if (mapping == null) {
-			HttpServerResponse response = new HttpServerResponse();
-			response.setError(400);
-			return response;
-		}
-		
 		URL url = request.getUrl();
-		String mappingUrl;
+		String mappingUrl = null;
+		HttpServerResponse response = new HttpServerResponse();
+		response.setError(400);
+		
+		if (mapping == null || url == null || url.getPath().isEmpty())
+			return response;
 		
 		try {
-			mappingUrl = (String) mapping.get(url.getPath().get(0));
+			String path = url.getPath().get(0);
+			JSONObject map;
+			
+			for (int i=0; i<mapping.length(); i++) {
+				map = mapping.getJSONObject(i);
+				if(map.has(path)) {
+					System.out.println(map + " path: " + path);
+					mappingUrl = map.getString(path);
+				}
+			}
+			
+			if(mappingUrl == null) {
+				response.setError(404);
+				return response;
+			}
 		} catch (JSONException e) {
 			e.printStackTrace();
-			HttpServerResponse response = new HttpServerResponse();
-			response.setError(400);
 			return response;
 		}
 
@@ -48,7 +59,6 @@ public class URLRouter {
 
 	public static HttpServerResponse routeGET(HttpServerRequest request,
 			String mappingUrl) {
-		
 		System.out.println(mappingUrl);
 		return Formatter.formatHttpRequest(request);
 	}

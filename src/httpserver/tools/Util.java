@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -14,14 +15,14 @@ public class Util {
 		return RequestMethod.values();
 	}
 
-	public static JSONObject getMapping(String filename) {
+	public static JSONArray getMapping(String filename) {
 		try {
 			List<String> fileContent = Files.readAllLines(Paths.get(filename));
 			StringBuilder strBuilder = new StringBuilder();
 
 			for (String str : fileContent)
 				strBuilder.append(str);
-			return (JSONObject) (new JSONObject(strBuilder.toString())).get("mappings");
+			return (JSONArray) (new JSONObject(strBuilder.toString())).get("mappings");
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
@@ -29,5 +30,9 @@ public class Util {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	public boolean containsPath(JSONArray array, String path) {
+		return array.toString().contains(path);
 	}
 }

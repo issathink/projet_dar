@@ -16,8 +16,8 @@ public class URL {
 	}
 
 	public URL(String strUrl) {
-		ArrayList<String> path = new ArrayList<>();
-		HashMap<String, String> params = new HashMap<>();
+		path = new ArrayList<>();
+		params = new HashMap<>();
 
 		/** First Split With Queryparams ***/
 		String[] tmp = strUrl.split("\\?");
