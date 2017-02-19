@@ -1,4 +1,4 @@
-package test;
+package testclient;
 
 public class Point2D {
 	
@@ -21,5 +21,17 @@ public class Point2D {
 	public int getId() {
 		return id;
 	}
+	
+	public void setX(int x) {
+		this.x = x;
+	}
+	
+	public void setY(int y) {
+		this.y = y;
+	}
 
+	@Override
+	public String toString() {
+		return "[" + id + "]" + "(" + x + "," + y + ")"; 
+	}
 }

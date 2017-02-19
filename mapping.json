@@ -1,6 +1,6 @@
 {
 	"mappings": [
-		{ "list": "list.ListServlet" },
-		{ "p": "list.ListServlet" }
+		{ "list": "testclient.ListServlet" },
+		{ "p": "testclient.ListServlet" }
 	]
 }

@@ -21,7 +21,7 @@ public class URL {
 
 		/** First Split With Queryparams ***/
 		String[] tmp = strUrl.split("\\?");
-		System.out.println("TMp length: " + strUrl);
+		System.out.println("url: " + strUrl);
 
 		/*** If we have queryParams parse them ***/
 		if (tmp.length > 1) {
@@ -48,7 +48,6 @@ public class URL {
 			}
 		} else {
 			String[] paths = tmp[0].split("\\/");
-
 			for (int i = 1; i < paths.length; i++) {
 				path.add(paths[i]);
 			}

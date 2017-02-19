@@ -9,7 +9,9 @@ public class AnalyseRequest {
 
 	public static HttpServerRequest analyseRequest(String source) {
 		HttpServerRequest request = new HttpServerRequest();
-		String[] result = source.split("\n");
+		String[] sourceTab = source.split("\n\n"); 
+		
+		String[] result = sourceTab[0].split("\n");
 		int hostIndex = -1;
 		// parse request method and url
 		URL url = null;
@@ -31,7 +33,6 @@ public class AnalyseRequest {
 		String host = null;
 		for (int i = 0; i < result.length; i++) {
 			if (result[i].toLowerCase().contains("host:")) {
-				// System.out.println("Jai reculol "+result[i]);
 				host = result[i].split(" ")[1];
 				request.setHost(host);
 				break;
@@ -41,12 +42,14 @@ public class AnalyseRequest {
 		if (host == null)
 			request.setError(400);	
 		for(int i = 1; i < result.length; i++) {
-			// System.out.println("Merde ca commence "+result[i]);
 			if(i != hostIndex) {
 				String[] tmp = result[i].split(":");
 				request.addParam(tmp[0].trim(), tmp[1].trim());
 			}
 		}
+		
+		if(sourceTab.length > 1)
+			request.setBody(sourceTab[1]);
 
 		return request;
 	}

@@ -1,6 +1,7 @@
 package httpserver.urlrouting;
 
 import httpserver.format.Formatter;
+import httpserver.interfaces.IServlet;
 import httpserver.tools.HttpServerRequest;
 import httpserver.tools.HttpServerResponse;
 import httpserver.tools.Util;
@@ -15,7 +16,6 @@ public class URLRouter {
 
 	public static HttpServerResponse route(HttpServerRequest request) {
 		mapping = Util.getMapping(MAPPING_FILE);
-		System.out.println(mapping.toString());
 		URL url = request.getUrl();
 		String mappingUrl = null;
 		HttpServerResponse response = new HttpServerResponse();
@@ -31,7 +31,6 @@ public class URLRouter {
 			for (int i=0; i<mapping.length(); i++) {
 				map = mapping.getJSONObject(i);
 				if(map.has(path)) {
-					System.out.println(map + " path: " + path);
 					mappingUrl = map.getString(path);
 				}
 			}
@@ -45,39 +44,34 @@ public class URLRouter {
 			return response;
 		}
 
-		switch (request.getRequestMethod()) {
-		case PUT:
-			return routePUT(request, mappingUrl);
-		case POST:
-			return routePOST(request, mappingUrl);
-		case DELETE:
-			return routeDEL(request, mappingUrl);
-		default:
-			return routeGET(request, mappingUrl);
+		return delegate(request, mappingUrl);
+	}
+
+	@SuppressWarnings("unchecked")
+	private static HttpServerResponse delegate(HttpServerRequest request,
+			String mappingUrl) {
+		System.out.println(mappingUrl);
+		try {
+			Class<IServlet> cls = (Class<IServlet>) Class.forName(mappingUrl);
+			IServlet instance = cls.newInstance();
+			
+			switch (request.getRequestMethod()) {
+			case PUT:
+				return instance.put(request);
+			case POST:
+				return instance.post(request);
+			case DELETE:
+				return instance.delete(request);
+			default:
+				return instance.get(request);
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
 		}
-	}
-
-	public static HttpServerResponse routeGET(HttpServerRequest request,
-			String mappingUrl) {
-		System.out.println(mappingUrl);
-		return Formatter.formatHttpRequest(request);
-	}
-
-	public static HttpServerResponse routePUT(HttpServerRequest request,
-			String mappingUrl) {
-		System.out.println(mappingUrl);
-		return Formatter.formatHttpRequest(request);
-	}
-
-	public static HttpServerResponse routePOST(HttpServerRequest request,
-			String mappingUrl) {
-		System.out.println(mappingUrl);
-		return Formatter.formatHttpRequest(request);
-	}
-
-	public static HttpServerResponse routeDEL(HttpServerRequest request,
-			String mappingUrl) {
-		System.out.println(mappingUrl);
 		return Formatter.formatHttpRequest(request);
 	}
 
