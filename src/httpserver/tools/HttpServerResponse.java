@@ -13,6 +13,10 @@ public class HttpServerResponse {
 	private String content;
 	private int error = -1;
 	
+	public HttpServerResponse() {
+		this.date = new Date();
+	}
+	
 	public int getError() {
 		return error;
 	}

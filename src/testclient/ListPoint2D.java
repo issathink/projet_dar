@@ -5,14 +5,17 @@ import java.util.ArrayList;
 public class ListPoint2D {
 	
 	ArrayList<Point2D> list;
+	private static int cpt;
 	
 	public ListPoint2D() {
 		list = new ArrayList<>();
 		list.add(new Point2D(0, 0, 0));
 		list.add(new Point2D(1, 1, 1));
+		cpt = 0;
 	}
 	
 	public int getX(int id) throws Exception {
+		System.out.println("GetX id: " + id);
 		for(Point2D p: list)
 			if(p.getId() == id)
 				return p.getX();
@@ -44,8 +47,10 @@ public class ListPoint2D {
 		return false;
 	}
 	
-	public void post(int id, int x, int y) {
+	public int post(int x, int y) {
+		int id = cpt++;
 		list.add(new Point2D(id, x, y));
+		return id;
 	}
 	
 	public boolean delete(int id) {
