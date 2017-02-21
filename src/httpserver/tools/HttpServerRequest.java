@@ -10,11 +10,20 @@ public class HttpServerRequest {
 	private String host;
 	private URL url;
 	private RequestMethod requestMethod;
+	private String sessionId;
 	private int error;
 	private String body;
 
 	private Map<String, String> params;
 	
+	public String getSessionId() {
+		return sessionId;
+	}
+
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
+	}
+
 	public HttpServerRequest() {
 		params = new HashMap<>();
 		error = -1;

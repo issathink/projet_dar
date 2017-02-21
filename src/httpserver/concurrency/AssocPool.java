@@ -31,7 +31,7 @@ public class AssocPool {
 			try {
 				client = socket.accept();
 				// System.out.println("Le client " + client.getPort() + " a ete accepte.");
-
+				
 				synchronized (this.clients) {
 					clients.add(client);
 					this.clients.notify();

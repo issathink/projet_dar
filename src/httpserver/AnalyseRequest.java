@@ -48,10 +48,22 @@ public class AnalyseRequest {
 			}
 		}
 		
+		// TODO update session
+		
 		if(sourceTab.length > 1)
 			request.setBody(sourceTab[1]);
 
 		return request;
+	}
+	
+	public static String getSessionId(HttpServerRequest request) {
+		// TODO
+		String cookie = request.getParams().get("Cookie");
+		if(cookie == null) {
+			
+			return null;
+		}
+		return null;
 	}
 
 }
