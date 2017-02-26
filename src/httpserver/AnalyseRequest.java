@@ -1,5 +1,7 @@
 package httpserver;
 
+import httpserver.sessions.HttpSession;
+import httpserver.sessions.HttpSessionManager;
 import httpserver.tools.HttpServerRequest;
 import httpserver.tools.RequestMethod;
 import httpserver.tools.Util;
@@ -9,9 +11,8 @@ public class AnalyseRequest {
 
 	public static HttpServerRequest analyseRequest(String source) {
 		HttpServerRequest request = new HttpServerRequest();
-		String[] sourceTab = source.split("\n\n"); 
-		
-		String[] result = sourceTab[0].split("\n");
+
+		String[] result = source.split("\n");
 		int hostIndex = -1;
 		// parse request method and url
 		URL url = null;
@@ -40,30 +41,39 @@ public class AnalyseRequest {
 		}
 
 		if (host == null)
-			request.setError(400);	
-		for(int i = 1; i < result.length; i++) {
-			if(i != hostIndex) {
+			request.setError(400);
+		for (int i = 1; i < result.length; i++) {
+			if (i != hostIndex) {
 				String[] tmp = result[i].split(":");
 				request.addParam(tmp[0].trim(), tmp[1].trim());
 			}
 		}
-		
-		// TODO update session
-		
-		if(sourceTab.length > 1)
-			request.setBody(sourceTab[1]);
+
+		// update or create new session
+		request.setSessionId(sessionId(request));
 
 		return request;
 	}
-	
-	public static String getSessionId(HttpServerRequest request) {
-		// TODO
+
+	public static String sessionId(HttpServerRequest request) {
 		String cookie = request.getParams().get("Cookie");
-		if(cookie == null) {
-			
-			return null;
+		String sessionId = null;
+
+		if (cookie != null) {
+			sessionId = HttpSessionManager.getSessionIdFromCookie(cookie);
+			if (sessionId != null) {
+				HttpSession session = HttpSessionManager.getSession(sessionId);
+				if (session != null) {
+					session.setLastAccessedToNow();
+					return sessionId;
+				}
+				sessionId = null;
+			}
 		}
-		return null;
+
+		sessionId = HttpSessionManager.generateSessionId();
+		HttpSessionManager.addSession(sessionId, new HttpSession());
+		return sessionId;
 	}
 
 }

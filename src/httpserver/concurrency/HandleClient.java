@@ -40,6 +40,8 @@ public class HandleClient extends Thread {
 				BufferedReader buff = new BufferedReader(new InputStreamReader(client.getInputStream()));
 				PrintStream out = new PrintStream(new DataOutputStream(client.getOutputStream()));
 				String request = "";
+				String body = "";
+				int i = 0;
 
 				while (true) {
 					String line;
@@ -47,6 +49,17 @@ public class HandleClient extends Thread {
 
 					if ("".equals(line)) {
 						HttpServerRequest httpRequest = AnalyseRequest.analyseRequest(request);
+						String ctLength = httpRequest.getParams().get("Content-Length");
+						
+						if(ctLength != null) {
+							int contentLength = Integer.parseInt(ctLength);
+							int val;
+							while(i < contentLength && (val = buff.read()) != -1) {
+								body += (char)val;
+							}
+						}
+						httpRequest.setBody(body);
+						
 						HttpServerResponse respHttp = URLRouter.route(httpRequest);
 						out.println(respHttp.toString());
 						out.close();
@@ -61,6 +74,7 @@ public class HandleClient extends Thread {
 						break;
 					}
 				}
+				System.out.println("Body: " + body);
 				System.out.println("J'ai fini avec ce client. port: " + client.getPort() + " \n");
 			} catch (IOException e) {
 				e.printStackTrace();

@@ -6,10 +6,12 @@ import java.util.Date;
 public class HttpSession {
 	private Date creation;
 	private Date lastAccessedTime;
+	private Object content;
 	
 	public HttpSession() {
 		this.creation = new Date();
 		this.lastAccessedTime = new Date();
+		content = null;
 	}
 
 	public Date getLastAccessedTime() {
@@ -24,12 +26,20 @@ public class HttpSession {
 		return creation;
 	}
 
-	public void setCreation(Date creation) {
-		this.creation = creation;
+	public void setLastAccessedToNow() {
+		this.lastAccessedTime = new Date();
 	}
 	
 	public boolean isValid() {
 		return lastAccessedTime.toInstant().plus(30, ChronoUnit.MINUTES).isAfter(new Date().toInstant());
+	}
+	
+	public Object getContent() {
+		return content;
+	}
+	
+	public void setContent(Object content) {
+		this.content = content;
 	}
 
 }
