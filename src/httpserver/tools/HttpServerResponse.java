@@ -84,7 +84,7 @@ public class HttpServerResponse {
 	@Override
 	public String toString() {
 		if(error != -1)
-			return "HTTP/1.1 " + error + "\n";
+			return ErrorGenerator.getErrorPage(error); // "HTTP/1.1 " + error + "\n";
 		
 		String res = "HTTP/1.1 200 OK\n" 
 				+ "Date: " + getDate() + "\n"

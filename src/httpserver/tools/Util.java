@@ -10,7 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Util {
-	
+
 	public static RequestMethod[] getRequestMethodHeaders() {
 		return RequestMethod.values();
 	}
@@ -31,8 +31,15 @@ public class Util {
 			return null;
 		}
 	}
-	
+
 	public boolean containsPath(JSONArray array, String path) {
 		return array.toString().contains(path);
+	}
+
+	public static String readFile(String filename) throws IOException {
+		String content = "";
+		for (String line : Files.readAllLines(Paths.get(filename)))
+			content += line;
+		return content;
 	}
 }
