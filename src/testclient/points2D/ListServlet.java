@@ -1,4 +1,4 @@
-package testclient;
+package testclient.points2D;
 
 import httpserver.interfaces.IServlet;
 import httpserver.tools.HttpServerRequest;
