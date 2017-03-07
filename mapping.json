@@ -1,6 +1,9 @@
 {
 	"mappings": [
-		{ "list": "testclient.ListServlet" },
-		{ "p": "testclient.ListServlet" }
+		{ "method": "testclient.ListServlet.list", "verb": "GET", "routing": "/list/<id>/x" },
+		{ "method": "testclient.ListServlet.post", "verb": "POST", "routing": "/p" },
+		{ "method": "testclient.ListServlet.put", "verb": "PUT", "routing": "/p/<id>?x=<value>&y=<value>" },
+		{ "method": "testclient.ListServlet.getX", "verb": "GET", "routing": "/p/<id>/x" },
+		{ "method": "testclient.ListServlet.getY", "verb": "GET", "routing": "/p/<id>/y" },
 	]
 }

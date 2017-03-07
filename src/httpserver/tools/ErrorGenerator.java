@@ -35,14 +35,10 @@ public class ErrorGenerator {
 	public static String readFile(String filename, int error) {
 		String content = "HTTP/1.1 " + error + " \n\n";
 		try {
-			for (String line : Files.readAllLines(Paths.get(filename))) {
-				if (line.contains("statusCodeMessage"))
-					content += "<p>" + errorText.get(error) + "</p>";
-				else if (line.contains("statusCode"))
-					content += "<h1>" + error + "</h1>";
-				else
-					content += line;
-			}
+			for (String line : Files.readAllLines(Paths.get(filename)))
+				content += line;
+			content = content.replace("statusCodeMessage", "<p>" + errorText.get(error) + "</p>");
+			content = content.replace("statusCode", "<p><h1>" + error + "</h1>");
 		} catch (IOException e) {
 			e.printStackTrace();
 			return "HTTP/1.1 " + error + " \n";

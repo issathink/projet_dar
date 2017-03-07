@@ -1,5 +1,7 @@
 package testclient.points2D;
 
+import java.util.ArrayList;
+
 import httpserver.interfaces.IServlet;
 import httpserver.tools.HttpServerRequest;
 import httpserver.tools.HttpServerResponse;
@@ -8,7 +10,7 @@ import httpserver.urlrouting.URL;
 public class ListServlet implements IServlet {
 
 	@Override
-	public HttpServerResponse get(HttpServerRequest request) {
+	public HttpServerResponse get(HttpServerRequest request, ArrayList<String> pathParams) {
 		HttpServerResponse response = new HttpServerResponse();
 		URL url = request.getUrl();
 
@@ -42,7 +44,7 @@ public class ListServlet implements IServlet {
 	}
 
 	@Override
-	public HttpServerResponse put(HttpServerRequest request) {
+	public HttpServerResponse put(HttpServerRequest request, ArrayList<String> pathParams) {
 		HttpServerResponse response = new HttpServerResponse();
 		URL url = request.getUrl();
 
@@ -70,7 +72,7 @@ public class ListServlet implements IServlet {
 	}
 
 	@Override
-	public HttpServerResponse post(HttpServerRequest request) {
+	public HttpServerResponse post(HttpServerRequest request, ArrayList<String> pathParams) {
 		HttpServerResponse response = new HttpServerResponse();
 		URL url = request.getUrl();
 
@@ -97,7 +99,7 @@ public class ListServlet implements IServlet {
 	}
 
 	@Override
-	public HttpServerResponse delete(HttpServerRequest request) {
+	public HttpServerResponse delete(HttpServerRequest request, ArrayList<String> pathParams) {
 		HttpServerResponse response = new HttpServerResponse();
 		URL url = request.getUrl();
 

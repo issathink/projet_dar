@@ -1,5 +1,6 @@
 package testclient.templates;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import httpserver.interfaces.IServlet;
@@ -15,22 +16,22 @@ public class TestTemplate implements IServlet {
 	}
 	
 	@Override
-	public HttpServerResponse get(HttpServerRequest request) {
+	public HttpServerResponse get(HttpServerRequest request, ArrayList<String> pathParams) {
 		return null;
 	}
 
 	@Override
-	public HttpServerResponse put(HttpServerRequest request) {
+	public HttpServerResponse put(HttpServerRequest request, ArrayList<String> pathParams) {
 		return null;
 	}
 
 	@Override
-	public HttpServerResponse post(HttpServerRequest request) {
+	public HttpServerResponse post(HttpServerRequest request, ArrayList<String> pathParams) {
 		return null;
 	}
 
 	@Override
-	public HttpServerResponse delete(HttpServerRequest request) {
+	public HttpServerResponse delete(HttpServerRequest request, ArrayList<String> pathParams) {
 		return null;
 	}
 
