@@ -64,7 +64,7 @@ public class HandleClient extends Thread {
 						out.println(respHttp.toString());
 						out.close();
 						buff.close();
-						System.out.println(client);
+						System.out.println("Client: " + client);
 						break;
 					}
 

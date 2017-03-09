@@ -7,6 +7,7 @@ import httpserver.tools.HttpServerResponse;
 import httpserver.tools.Util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,9 +18,9 @@ public class URLRouter {
 	private static JSONArray mapping;
 
 	public static HttpServerResponse route(HttpServerRequest request) {
+		String mappingClass = "", mappingMethod = "";
 		mapping = Util.getMapping(MAPPING_FILE);
 		URL url = request.getUrl();
-		String mappingUrl = null;
 		HttpServerResponse response = new HttpServerResponse();
 		response.setError(400);
 
@@ -32,20 +33,38 @@ public class URLRouter {
 		try {
 			JSONObject map;
 			boolean found = true;
-			
+
 			for (int i = 0; i < mapping.length(); i++) {
 				map = mapping.getJSONObject(i);
+				found = true;
+
 				if (map.has("routing")) {
-					String[] routString = map.getString("routing").split("\\?")[0].split("\\/");
+					String route = map.getString("routing");
+					if(route.startsWith("/"))
+						route = route.substring(1, route.length());
+					String[] routString = route.split("\\?")[0].split("\\/");
 					if (routString.length != pathParams.size())
 						continue;
 
-					for (int j = 0; j < routString.length; j++) {						
-						if(!routString[i].equals(pathParams.get(i)) 
-								&& !routString[i].startsWith("<") 
-								&& !routString[i].endsWith(">")) {
-							found = false;
+					for (int j = 0; j < routString.length; j++){ 
+						if(routString[j].startsWith("<") && routString[j].endsWith(">")){
+							// Recuperer la valeur ?
+							continue;
 						}
+						if (!routString[j].equals(pathParams.get(j))) {
+							found = false;
+							break;
+						}
+					}
+					if (found) {
+						System.out.println("Jai trouve un truc qui match " + resPathParams);
+						Arrays.stream(routString).forEach(a -> System.out.print(" | " + a));
+						String methodFullName = map.getString("method");
+						System.out.println("\nLa methode est "+methodFullName);
+						int lastIndexOfDot = methodFullName.lastIndexOf('.');
+						mappingClass = methodFullName.substring(0, lastIndexOfDot);
+						mappingMethod = methodFullName.substring(lastIndexOfDot+1, methodFullName.length());
+						break;
 					}
 				}
 			}
@@ -58,15 +77,16 @@ public class URLRouter {
 			e.printStackTrace();
 			return response;
 		}
-
-		return delegate(request, mappingUrl, resPathParams);
+		System.out.println("\nJe dois apeller avec "+mappingClass+" et "+mappingMethod);
+		return delegate(request, mappingClass, mappingMethod, resPathParams);
 	}
 
 	@SuppressWarnings("unchecked")
-	private static HttpServerResponse delegate(HttpServerRequest request, String mappingUrl, ArrayList<String> pathParams) {
-		System.out.println(mappingUrl);
+	private static HttpServerResponse delegate(HttpServerRequest request, String mappingClass, String methodName,
+			ArrayList<String> pathParams) {
+		System.out.println("mappingUrl: " + mappingClass);
 		try {
-			Class<IServlet> cls = (Class<IServlet>) Class.forName(mappingUrl);
+			Class<IServlet> cls = (Class<IServlet>) Class.forName(mappingClass);
 			IServlet instance = cls.newInstance();
 
 			switch (request.getRequestMethod()) {

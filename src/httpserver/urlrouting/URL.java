@@ -20,8 +20,10 @@ public class URL {
 		params = new HashMap<>();
 
 		/** First Split With Queryparams ***/
+		if(strUrl.startsWith("/"))
+			strUrl = strUrl.substring(1, strUrl.length());
 		String[] tmp = strUrl.split("\\?");
-		System.out.println("url: " + strUrl);
+		
 
 		/*** If we have queryParams parse them ***/
 		if (tmp.length > 1) {
@@ -29,7 +31,7 @@ public class URL {
 			String[] prms = tmp[1].split("&");
 
 			/*** Path contains every URI ***/
-			for (int i = 1; i < paths.length; i++) {
+			for (int i = 0; i < paths.length; i++) {
 				path.add(paths[i]);
 				System.out.println(">> " + paths[i]);
 			}
@@ -48,10 +50,12 @@ public class URL {
 			}
 		} else {
 			String[] paths = tmp[0].split("\\/");
-			for (int i = 1; i < paths.length; i++) {
+			for (int i = 0; i < paths.length; i++) {
 				path.add(paths[i]);
 			}
 		}
+		
+		System.out.println("url: " + path.toString());
 	}
 
 	public void Add(String elem) {
