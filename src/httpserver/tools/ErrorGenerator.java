@@ -9,13 +9,13 @@ public class ErrorGenerator {
 
 	public static HashMap<Integer, String> errorText = new HashMap<>();
 	static {
-		errorText.put(400, "Sorry bad request. The request could not be undestood.");
-		errorText.put(404, "Sorry This was dead link - Page not Found");
+		errorText.put(StatusCodes.ErrorBadRequest, "Sorry bad request. The request could not be undestood.");
+		errorText.put(StatusCodes.ErrorNotFound, "Sorry This was dead link - Page not Found");
 	}
 
 	public static String getErrorPage(int error) {
 		switch (error) {
-		case 400:
+		case StatusCodes.ErrorBadRequest:
 			return get400();
 		default:
 			return get404();
@@ -24,12 +24,12 @@ public class ErrorGenerator {
 
 	private static String get404() {
 		String filename = "files/errorTemplate.html";
-		return readFile(filename, 404);
+		return readFile(filename, StatusCodes.ErrorNotFound);
 	}
 
 	private static String get400() {
 		String filename = "files/errorTemplate.html";
-		return readFile(filename, 400);
+		return readFile(filename, StatusCodes.ErrorBadRequest);
 	}
 
 	public static String readFile(String filename, int error) {

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import httpserver.interfaces.IServlet;
 import httpserver.tools.HttpServerRequest;
 import httpserver.tools.HttpServerResponse;
+import httpserver.tools.StatusCodes;
 import httpserver.urlrouting.URL;
 
 public class ListServlet implements IServlet {
@@ -30,14 +31,14 @@ public class ListServlet implements IServlet {
 					else if (coord.equals("y"))
 						response.setContent(list.getY(id) + "");
 					else
-						response.setError(400);
+						response.setError(StatusCodes.ErrorBadRequest);
 				}
 			} else {
-				response.setError(404);
+				response.setError(StatusCodes.ErrorNotFound);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			response.setError(400);
+			response.setError(StatusCodes.ErrorBadRequest);
 		}
 		System.out.println("Reponse: " + response.toString());
 		return response;
@@ -59,14 +60,14 @@ public class ListServlet implements IServlet {
 					int y = Integer.parseInt(url.getParams().get("y"));
 					list.put(id, x, y);
 				} else {
-					response.setError(404);
+					response.setError(StatusCodes.ErrorNotFound);
 				}
 			} else {
-				response.setError(404);
+				response.setError(StatusCodes.ErrorNotFound);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			response.setError(400);
+			response.setError(StatusCodes.ErrorBadRequest);
 		}
 		return response;
 	}
@@ -88,12 +89,12 @@ public class ListServlet implements IServlet {
 					int id = list.post(x, y);
 					response.setContent(id + "");
 				} else {
-					response.setError(404);
+					response.setError(StatusCodes.ErrorNotFound);
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			response.setError(400);
+			response.setError(StatusCodes.ErrorBadRequest);
 		}
 		return response;
 	}
@@ -113,12 +114,12 @@ public class ListServlet implements IServlet {
 					boolean result = list.delete(id);
 					response.setContent(result + "");
 				} else {
-					response.setError(404);
+					response.setError(StatusCodes.ErrorNotFound);
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			response.setError(400);
+			response.setError(StatusCodes.ErrorBadRequest);
 		}
 		return response;
 	}

@@ -4,6 +4,7 @@ import httpserver.sessions.HttpSession;
 import httpserver.sessions.HttpSessionManager;
 import httpserver.tools.HttpServerRequest;
 import httpserver.tools.RequestMethod;
+import httpserver.tools.StatusCodes;
 import httpserver.tools.Util;
 import httpserver.urlrouting.URL;
 
@@ -28,7 +29,7 @@ public class AnalyseRequest {
 		}
 
 		if (url == null)
-			request.setError(400);
+			request.setError(StatusCodes.ErrorBadRequest);
 
 		// parse host
 		String host = null;
@@ -41,7 +42,7 @@ public class AnalyseRequest {
 		}
 
 		if (host == null)
-			request.setError(400);
+			request.setError(StatusCodes.ErrorBadRequest);
 		for (int i = 1; i < result.length; i++) {
 			if (i != hostIndex) {
 				String[] tmp = result[i].split(":");

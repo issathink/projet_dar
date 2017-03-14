@@ -5,7 +5,9 @@ import java.util.List;
 
 public class StatusCodes {
 
-	public static List<StatusCode> statusCodes = new ArrayList<>();;
+	public static List<StatusCode> statusCodes = new ArrayList<>();
+	public static final int ErrorBadRequest = 404;
+	public static final int ErrorNotFound = 404;
 
 	public StatusCodes() {
 		statusCodes.add(new StatusCode(100, "Continue"));
