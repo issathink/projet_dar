@@ -38,9 +38,9 @@ public class Util {
 		if(mapping.equals("string"))
 			return String.class;
 		if(mapping.equals("int"))
-			return Integer.class;
+			return int.class;
 		if(mapping.equals("double"))
-			return Double.class;
+			return double.class;
 		
 		return String.class;
 	}

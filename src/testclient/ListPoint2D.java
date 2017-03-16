@@ -23,7 +23,7 @@ public class ListPoint2D {
 		throw new Exception();
 	}
 	
-	public int getX(Integer id) throws Exception {
+	public int getX(int id) throws Exception {
 		
 		System.out.println("GetXInt id: " + id);
 		for(Point2D p: list)

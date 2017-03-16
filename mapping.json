@@ -2,7 +2,7 @@
 	"mappings": [
 		{ "method": "testclient.ListServlet.list", "verb": "GET", "routing": "/list" },
 		{ "method": "testclient.ListServlet.post", "verb": "POST", "routing": "/p" },
-		{ "method": "testclient.ListPoint2D.getX", "verb": "GET", "routing": "/p/<string>/x" },
+		{ "method": "testclient.ListPoint2D.getX", "verb": "GET", "routing": "/p/<int>/x" },
 		{ "method": "testclient.ListPoint2D.getY", "verb": "GET", "routing": "/p/<string>/y" },
 	]
 }
