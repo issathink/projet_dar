@@ -29,7 +29,8 @@ public class URLRouter {
 			return response;
 
 		ArrayList<String> pathParams = url.getPath();
-		ArrayList<String> resPathParams = new ArrayList<>();
+		ArrayList<Object> resPathParams = new ArrayList<>();
+		ArrayList<Class> resPathParamsClass = new ArrayList<>();
 
 		try {
 			JSONObject map;
@@ -50,7 +51,10 @@ public class URLRouter {
 					for (int j = 0; j < routString.length; j++){ 
 						if(routString[j].startsWith("<") && routString[j].endsWith(">")){
 							// Recuperer la valeur ?
-							resPathParams.add(pathParams.get(j));
+							String mappingValue = routString[j].substring(1, routString[j].length()-1);
+							System.out.println("Jai ca comme value "+mappingValue);
+							resPathParams.add(Util.getObjectFromMapping(mappingValue, pathParams.get(j)));
+							resPathParamsClass.add(Util.getClassFromMapping(mappingValue));
 							continue;
 						}
 						if (!routString[j].equals(pathParams.get(j))) {
@@ -76,11 +80,11 @@ public class URLRouter {
 			e.printStackTrace();
 			return response;
 		}
-		return delegate(request, mappingClass, mappingMethod, resPathParams);
+		return delegate(request, mappingClass, mappingMethod, resPathParams, resPathParamsClass);
 	}
 
 	private static HttpServerResponse delegate(HttpServerRequest request, String mappingClass, String methodName,
-			ArrayList<String> pathParams) throws SecurityException {
+			ArrayList<Object> pathParams, ArrayList<Class> pathParamsClass) throws SecurityException {
 		System.out.println("delegate mappingClass: " + mappingClass + " methodName: " + methodName + "\npathParams: " + pathParams);
 		
 		if(methodName == null || methodName.equals("")){
@@ -91,17 +95,11 @@ public class URLRouter {
 		Class classOfParams[] = new Class[pathParams.size()];
 		Object mesObject[] = new Object[pathParams.size()];
 		int i[] = {0};
-		pathParams.forEach( (n) -> { classOfParams[i[0]++] = String.class; mesObject[i[0]-1] = n;} );
-		System.out.println("Je te baise issa "+classOfParams[0]);
+		pathParamsClass.forEach( (n) -> classOfParams[i[0]++] = n); // Add the classes 
+		i[0] = 0;
+		pathParams.forEach( n -> mesObject[i[0]++] = n); // Add the objects
+		System.out.println("Je te baise issa "+classOfParams[0]); //
 		try {
-			
-			
-			
-
-			
-			
-			
-			
 			Class<?> cls = Class.forName(mappingClass);
 			Object instance = cls.newInstance();
 			Method m = cls.getMethod(methodName, classOfParams);

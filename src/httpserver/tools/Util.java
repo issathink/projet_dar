@@ -31,7 +31,31 @@ public class Util {
 			return null;
 		}
 	}
-
+	
+	@SuppressWarnings("rawtypes")
+	public static Class getClassFromMapping(String mapping){
+		mapping = mapping.toLowerCase();
+		if(mapping.equals("string"))
+			return String.class;
+		if(mapping.equals("int"))
+			return Integer.class;
+		if(mapping.equals("double"))
+			return Double.class;
+		
+		return String.class;
+	}
+	
+	public static Object getObjectFromMapping(String mapping, String value){
+		mapping = mapping.toLowerCase();
+		if(mapping.equals("string"))
+			return value;
+		if(mapping.equals("int"))
+			return Integer.parseInt(value);
+		if(mapping.equals("double"))
+			return Double.parseDouble(value);
+		
+		return value;
+	}
 	public boolean containsPath(JSONArray array, String path) {
 		return array.toString().contains(path);
 	}

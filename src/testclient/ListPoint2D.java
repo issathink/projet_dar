@@ -16,7 +16,16 @@ public class ListPoint2D {
 	
 	public int getX(String idz) throws Exception {
 		int id = Integer.parseInt(idz);
-		System.out.println("GetX id: " + id);
+		System.out.println("GetXString id: " + id);
+		for(Point2D p: list)
+			if(p.getId() == id)
+				return p.getX();
+		throw new Exception();
+	}
+	
+	public int getX(Integer id) throws Exception {
+		
+		System.out.println("GetXInt id: " + id);
 		for(Point2D p: list)
 			if(p.getId() == id)
 				return p.getX();
