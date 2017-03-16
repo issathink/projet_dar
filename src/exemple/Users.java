@@ -19,7 +19,7 @@ public class Users {
 
 			while ((line = br.readLine()) != null) {
 				String[] lines = line.split(";");
-				users.add(new User(lines[0], lines[1]));
+				users.add(new User(lines[0], lines[1], lines[2], lines[3]));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -28,9 +28,9 @@ public class Users {
 		return users;
 	}
 
-	public static void addUser(String username, String pwd) {
+	public static void addUser(String username, String pwd, double lat, double lng) {
 		try {
-			String content = username + ";" + pwd + "\n";
+			String content = username + ";" + pwd + ";" + lat + ";" + lng + "\n";
 			Files.write(Paths.get(FILENAME), content.getBytes(), StandardOpenOption.APPEND);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -40,7 +40,7 @@ public class Users {
 	public static void main(String[] args) {
 		System.out.println(getUsers());
 		System.out.println("-----------------------");
-		addUser("tt", "test");
+		addUser("tt", "test", 1.24, 2.48);
 		System.out.println(getUsers());
 	}
 }

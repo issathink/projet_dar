@@ -1,3 +1,0 @@
-yo;test
-ye;test
-tt;test
