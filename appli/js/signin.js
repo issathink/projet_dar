@@ -13,22 +13,22 @@ function responseIsConnected(response) {
 }
 
 function validate() {
-
 	login = document.forms["signin"]["login"].value;
 	pwd  = document.forms["signin"]["pwd"].value;
 
 	document.body.className += "loading";
 	// valMail = validateEmail(mail)
+	var form_length = 4;
 
-	if(login.length >= 6 && pwd.length >= 6) {
+	if(login.length >= 4 && pwd.length >= 4) {
 		console.log("pwd :" + pwd + " login: " + login);
 		signin(login, pwd);
 		$("#error_holder").text("");
-	} else if(login.length < 6) {
-		$("#error_holder").text("Your login is too short (at least 6 chars).").fadeIn('fast');
+	} else if(login.length < 4) {
+		$("#error_holder").text("Your login is too short (at least 4 chars).").fadeIn('fast');
 		document.body.className = '';
-	} else if(pwd.length < 6) {
-		$("#error_holder").text("Your password is too short (at least 6 chars).").fadeIn('fast');
+	} else if(pwd.length < 4) {
+		$("#error_holder").text("Your password is too short (at least 4 chars).").fadeIn('fast');
 		document.body.className = '';
 	} else {
 		$("#error_holder").text("I dont know what is this error.").fadeIn('fast');
@@ -38,7 +38,6 @@ function validate() {
 
 
 function signin(login, pwd) {
-
 	$.ajax({
 		url : "../signin",
 		type : "get",
@@ -54,7 +53,6 @@ function signin(login, pwd) {
 		}
 	});
 	console.log("End login.");
-
 }
 
 function responseSignin(response) {

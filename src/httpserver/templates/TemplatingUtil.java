@@ -27,6 +27,7 @@ public class TemplatingUtil {
 		return template;
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public static String replaceAllObject(String template, HashMap<String, Object> env) throws NoSuchFieldException, NoSuchMethodException, NameNotFoundException {
         Pattern pattern = Pattern.compile("%((\\w+)((\\.)(\\w+)))%");
         Matcher matcher = pattern.matcher(template);
@@ -35,7 +36,7 @@ public class TemplatingUtil {
 
         Class methodClass;
         Field[] classFields;
-        int i,j;
+        int j;
         boolean foundField;
 
         while (matcher.find()) {
@@ -44,7 +45,7 @@ public class TemplatingUtil {
             tab = expr.split("\\.");
             // varName = point1
             varName = tab[0];
-            // On vérifie que les attributs existent bien
+            // On verifie que les attributs existent bien
 
             if(tab.length == 1) {
                 if(env.get(varName) == null) {
@@ -56,7 +57,7 @@ public class TemplatingUtil {
             }else {
                 try {
                     attrName = tab[1];
-                    // Récup les fields de Point
+                    // Rï¿½cup les fields de Point
                     className = env.get(varName).getClass().getName();
                     methodClass = Class.forName(className);
                     classFields = methodClass.getFields();

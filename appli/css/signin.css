@@ -22,11 +22,11 @@
 }
 
 .signin .logo a {
-	font-size: 3em;
+	font-size: 2.7em;
 }
 
-.signin p {
- 	font-size: 25px;
+.signin-div span {
+ 	font-size: 15px;
  	font-weight: lighter;
 }
 
@@ -35,8 +35,8 @@
 }
 
 .signin .signin-div {
- 	font-size: 1.2em;
- 	margin-top: 5px;
+ 	font-size: 1.1em;
+ 	margin-top: 10px;
 }
 
 .signin .email-holder, .signin .password-holder {

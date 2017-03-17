@@ -18,6 +18,7 @@ public class URLRouter {
 	private static final String MAPPING_FILE = "mapping.json";
 	private static JSONArray mapping;
 
+	@SuppressWarnings("rawtypes")
 	public static HttpServerResponse route(HttpServerRequest request) {
 		String mappingClass = "", mappingMethod = "";
 		mapping = Util.getMapping(MAPPING_FILE);
@@ -83,6 +84,7 @@ public class URLRouter {
 		return delegate(request, mappingClass, mappingMethod, resPathParams, resPathParamsClass);
 	}
 
+	@SuppressWarnings("rawtypes")
 	private static HttpServerResponse delegate(HttpServerRequest request, String mappingClass, String methodName,
 			ArrayList<Object> pathParams, ArrayList<Class> pathParamsClass) throws SecurityException {
 		System.out.println("delegate mappingClass: " + mappingClass + " methodName: " + methodName + "\npathParams: " + pathParams);
@@ -95,7 +97,7 @@ public class URLRouter {
 		Class classOfParams[] = new Class[pathParams.size()];
 		Object mesObject[] = new Object[pathParams.size()];
 		int i[] = {0};
-		pathParamsClass.forEach( (n) -> classOfParams[i[0]++] = n); // Add the classes 
+		pathParamsClass.forEach((n) -> classOfParams[i[0]++] = n); // Add the classes 
 		i[0] = 0;
 		pathParams.forEach( n -> mesObject[i[0]++] = n); // Add the objects
 		System.out.println("Je te baise issa "+classOfParams[0]); //
