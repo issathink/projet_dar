@@ -49,14 +49,17 @@ public class HandleClient extends Thread {
 
 					if ("".equals(line)) {
 						HttpServerRequest httpRequest = AnalyseRequest.analyseRequest(request);
-						String ctLength = httpRequest.getParams().get("Content-Length");
-						
+						String ctLength = httpRequest.getHeaders().get("Content-Length");
+						System.out.println("**** Jai recu un content length "+ctLength);
+
 						if(ctLength != null) {
 							int contentLength = Integer.parseInt(ctLength);
 							int val;
 							while(i < contentLength && (val = buff.read()) != -1) {
 								body += (char)val;
+								i++;
 							}
+							System.out.println("A la fin bmon body vaut "+body);
 						}
 						httpRequest.setBody(body);
 						

@@ -57,7 +57,7 @@ public class AnalyseRequest {
 	}
 
 	public static String sessionId(HttpServerRequest request) {
-		String cookie = request.getParams().get("Cookie");
+		String cookie = request.getHeaders().get("Cookie");
 		String sessionId = null;
 
 		if (cookie != null) {

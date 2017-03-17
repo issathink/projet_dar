@@ -11,7 +11,7 @@ import httpserver.tools.HttpServerResponse;
 
 public class Formatter {
 	public static HttpServerResponse formatHttpRequest(HttpServerRequest req) {
-		String contentType = req.getParams().get("Content-Type");
+		String contentType = req.getHeaders().get("Content-Type");
 
 		if (contentType != null) {
 			System.out.println("ContentType: " + contentType);
@@ -31,7 +31,7 @@ public class Formatter {
 		response.setDate(new Date());
 
 		String tmp = "";
-		for (Map.Entry<String, String> entry : req.getParams().entrySet())
+		for (Map.Entry<String, String> entry : req.getHeaders().entrySet())
 			tmp += entry.getKey() + ": " + entry.getValue() + "\n";
 		String content = tmp;
 		response.setContent(content);
@@ -46,7 +46,7 @@ public class Formatter {
 		response.setDate(new Date());
 
 		String tmp = "";
-		for (Map.Entry<String, String> entry : req.getParams().entrySet())
+		for (Map.Entry<String, String> entry : req.getHeaders().entrySet())
 			tmp += entry.getKey() + ":" + entry.getValue() + "\n";
 		String content = tmp;
 
@@ -62,7 +62,7 @@ public class Formatter {
 		JSONObject content = new JSONObject();
 		
 		try {
-			for (Map.Entry<String, String> entry : req.getParams().entrySet())
+			for (Map.Entry<String, String> entry : req.getHeaders().entrySet())
 				content.append(entry.getKey(), entry.getValue());
 			response.setContent(content.toString());
 			System.out.println(content.toString());

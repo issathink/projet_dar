@@ -26,12 +26,12 @@ public class ListServlet implements IServlet {
 					int id = Integer.parseInt(url.getPath().get(1));
 					String coord = url.getPath().get(2);
 
-					if (coord.equals("x"))
-						response.setContent(list.getX(id) + "");
-					else if (coord.equals("y"))
-						response.setContent(list.getY(id) + "");
-					else
-						response.setError(StatusCodes.ErrorBadRequest);
+//					if (coord.equals("x"))
+//						response.setContent(list.getX(id) + "");
+//					else if (coord.equals("y"))
+//						response.setContent(list.getY(id) + "");
+//					else
+//						response.setError(StatusCodes.ErrorBadRequest);
 				}
 			} else {
 				response.setError(StatusCodes.ErrorNotFound);

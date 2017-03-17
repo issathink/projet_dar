@@ -49,24 +49,43 @@ function validate() {
 
 function signup(mail, login, pwd, repwd) {
 
-	$.ajax({
-		url : "../signup",
-		type : "get",
-		data : "format=json" + "&mail=" + mail + "&login=" + login + "&pw=" + pwd + "&repw=" + repwd,
-		dataType : "json",
+	/*$.ajax({
+		type: "POST",
+		url : "http://localhost:8081/appli/signout",
+		data : { "login": login, "mdp": pwd },
+		dataType : "jsonp",
 		callback : responseSignup,
 		success : function(rep) {
 			responseSignup(rep);
 		},
 		error : function(jqXHR, textStatus, errorThrown) {
-			func_erreur(-1, jqXHR.responseText, errorThrown);
+			console.log(jqXHR, " et ", textStatus, " et ",errorThrown);
+			alert("toz");
 		}
-	});
+	});*/
+
+	var http = new XMLHttpRequest();
+	var url = "http://localhost:8081/appli/signout";
+	var params = "login=ipsum&pwd=binny";
+	http.open("POST", url, true);
+
+	//Send the proper header information along with the request
+	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+	http.onreadystatechange = function() {//Call a function when the state changes.
+	    if(http.readyState == 4 && http.status == 200) {
+	        alert(http.responseText);
+	    }else{
+	    	alert(http.responseText);
+	    }
+	}
+	http.send(params);
 
 }
 
 
 function responseSignup(response) {
+	response = JSON.stringify(response);
 
 	if(response.ok != undefined) {
 		$("#error_holder").fadeOut('fast');

@@ -1,5 +1,8 @@
 package testclient.points2D;
 
+import httpserver.tools.HttpServerRequest;
+import httpserver.tools.HttpServerResponse;
+
 import java.util.ArrayList;
 
 public class ListPoint2D {
@@ -14,7 +17,7 @@ public class ListPoint2D {
 		cpt = 0;
 	}
 	
-	public int getX(int id) throws Exception {
+	public int getX(HttpServerRequest request, HttpServerResponse resp, int id) throws Exception {
 		System.out.println("GetX id: " + id);
 		for(Point2D p: list)
 			if(p.getId() == id)

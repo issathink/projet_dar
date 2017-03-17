@@ -1,5 +1,8 @@
 package testclient;
 
+import httpserver.tools.HttpServerRequest;
+import httpserver.tools.HttpServerResponse;
+
 import java.util.ArrayList;
 
 public class ListPoint2D {
@@ -14,22 +17,13 @@ public class ListPoint2D {
 		cpt = 0;
 	}
 	
-	public int getX(String idz) throws Exception {
-		int id = Integer.parseInt(idz);
-		System.out.println("GetXString id: " + id);
+	public int getX(HttpServerRequest request, HttpServerResponse resp, int id){
+		System.out.println("GetX id: " + id);
 		for(Point2D p: list)
 			if(p.getId() == id)
 				return p.getX();
-		throw new Exception();
-	}
-	
-	public int getX(int id) throws Exception {
-		
-		System.out.println("GetXInt id: " + id);
-		for(Point2D p: list)
-			if(p.getId() == id)
-				return p.getX();
-		throw new Exception();
+		System.out.println("Je vais lancer une exception");
+		return -1;
 	}
 	
 	public int getY(int id) throws Exception {

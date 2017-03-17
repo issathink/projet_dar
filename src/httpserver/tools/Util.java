@@ -3,6 +3,7 @@ package httpserver.tools;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -59,7 +60,16 @@ public class Util {
 	public boolean containsPath(JSONArray array, String path) {
 		return array.toString().contains(path);
 	}
-
+	
+	public static HashMap<String, String> toHashMapBody(String body){
+		HashMap<String, String> map = new HashMap<>();
+		String values[] = body.split("&");
+		for(String s : values){
+			String value[] = s.split("=");
+			map.put(value[0], value[1]);
+		}
+		return map;
+	}
 	public static String readFile(String filename) throws IOException {
 		String content = "";
 		for (String line : Files.readAllLines(Paths.get(filename)))

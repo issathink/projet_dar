@@ -23,7 +23,7 @@ public class URL {
 		if(strUrl.startsWith("/"))
 			strUrl = strUrl.substring(1, strUrl.length());
 		String[] tmp = strUrl.split("\\?");
-		
+		System.out.println("-- tmp: " + tmp.length);
 
 		/*** If we have queryParams parse them ***/
 		if (tmp.length > 1) {
@@ -39,6 +39,7 @@ public class URL {
 			/*** Params contains every queryParams ***/
 			for (String str : prms) {
 				String[] keyValue = str.split("=");
+				System.out.print(str + " " + keyValue[1] + " ; ");
 				/***
 				 * If the queryParam has a value put it. Else insert null so we
 				 * can catch an error later if needed
@@ -48,6 +49,7 @@ public class URL {
 				else
 					params.put(keyValue[0], null);
 			}
+			System.out.println();
 		} else {
 			String[] paths = tmp[0].split("\\/");
 			for (int i = 0; i < paths.length; i++) {
@@ -55,7 +57,7 @@ public class URL {
 			}
 		}
 		
-		System.out.println("url: " + path.toString());
+		System.out.println("url: " + path.toString() + " params: " + params);
 	}
 
 	public void Add(String elem) {

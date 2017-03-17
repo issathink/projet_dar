@@ -1,5 +1,4 @@
-var C_NAME   = "fyf_ident";
-var MAPS_KEY = "AIzaSyDZv1TYlMIMxAPIV1ZuspwPD5zZEjylW28";
+var C_NAME   = "projet_dar_cookie";
 
 /************************ Cookie mnam mnam mnam ***********************/
 function setCookie(cname, cvalue, minutes) {
@@ -62,7 +61,7 @@ function isConnected(callBack) {
         type : "get",
         crossDomain: false,
         data : "format=json" + "&session_id=" + genId,
-        dataType : "json",
+        dataType : "jsonp",
         success : function(rep) {
             callBack(rep);
         },
@@ -113,34 +112,3 @@ function get_ParamGET(param) {
 	return vars;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////
-
-function myHTMLspecialhars(ch) {
-    console.log("Chaine entre = "+ch);
-    ch = ch.replace(/&/g,"&amp;");
-    ch = ch.replace(/\"/g, "&quot;");
-    ch = ch.replace(/\'/g,"&#039;");
-    ch = ch.replace(/</g,"&lt;");
-    ch = ch.replace(/>/g,"&gt;");
-    ch = ch.replace(/é/g,"&eacute;");
-    ch = ch.replace(/è/g,"&egrave;");
-    ch = ch.replace(/à/g,"&agrave;");
-    ch = ch.replace(/ù/g,"&ugrave;");
-    console.log("Chaine sortie = "+ch);
-    return ch;
-}
-
-function myDecodeHTMLspecialhars(ch) {
-    console.log("Decode Chaine entre = "+ch);
-    ch = ch.replace(/&amp;/g,"&");
-    ch = ch.replace(/&quot;/g, "\"");
-    ch = ch.replace(/&#039;/g,"\'");
-    ch = ch.replace(/&lt;/g,"<");
-    ch = ch.replace(/&gt;/g,">");
-    ch = ch.replace(/&eacute;/g,"é");
-    ch = ch.replace(/&egrave;/g,"è");
-    ch = ch.replace(/&agrave;/g,"à");
-    ch = ch.replace(/&ugrave;/g,"ù");
-    console.log("Decode Chaine sortie = "+ch);
-    return ch;
-}

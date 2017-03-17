@@ -70,6 +70,10 @@ public class HttpServerRequest {
 	}
 
 	public Map<String, String> getParams() {
+		return url.getParams();
+	}
+	
+	public Map<String, String> getHeaders() {
 		return params;
 	}
 

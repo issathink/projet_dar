@@ -1,5 +1,10 @@
 package httpserver.urlrouting;
 
+import httpserver.tools.HttpServerRequest;
+import httpserver.tools.HttpServerResponse;
+import httpserver.tools.StatusCodes;
+import httpserver.tools.Util;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -7,12 +12,6 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import httpserver.format.Formatter;
-import httpserver.tools.HttpServerRequest;
-import httpserver.tools.HttpServerResponse;
-import httpserver.tools.StatusCodes;
-import httpserver.tools.Util;
 
 public class URLRouter {
 	private static final String MAPPING_FILE = "mapping.json";
@@ -88,19 +87,22 @@ public class URLRouter {
 	private static HttpServerResponse delegate(HttpServerRequest request, String mappingClass, String methodName,
 			ArrayList<Object> pathParams, ArrayList<Class> pathParamsClass) throws SecurityException {
 		System.out.println("delegate mappingClass: " + mappingClass + " methodName: " + methodName + "\npathParams: " + pathParams);
+		HttpServerResponse response = new HttpServerResponse();
 		
 		if(methodName == null || methodName.equals("")){
-			HttpServerResponse error = new HttpServerResponse();
-			error.setError(StatusCodes.ErrorNotFound);
-			return error;
+			response.setError(StatusCodes.ErrorNotFound);
+			return response;
 		}
-		Class classOfParams[] = new Class[pathParams.size()];
-		Object mesObject[] = new Object[pathParams.size()];
-		int i[] = {0};
+		Class classOfParams[] = new Class[pathParams.size()+2];
+		Object mesObject[] = new Object[pathParams.size()+2];
+		int i[] = {2};
 		pathParamsClass.forEach((n) -> classOfParams[i[0]++] = n); // Add the classes 
-		i[0] = 0;
+		i[0] = 2;
+		mesObject[0] = request;
+		mesObject[1] = response;
+		classOfParams[0] = HttpServerRequest.class;
+		classOfParams[1] = HttpServerResponse.class;
 		pathParams.forEach( n -> mesObject[i[0]++] = n); // Add the objects
-		System.out.println("Je te baise issa "+classOfParams[0]); //
 		try {
 			Class<?> cls = Class.forName(mappingClass);
 			Object instance = cls.newInstance();
@@ -113,7 +115,7 @@ public class URLRouter {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		return Formatter.formatHttpRequest(request);
+		return response;
 	}
 
 }
