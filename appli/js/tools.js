@@ -48,7 +48,6 @@ function checkCookie(name) {
 
 
 function isConnected(callBack) {
-
     genId = getCookie(C_NAME);
     if(genId == null) {
         console.log("No previous session id.");
@@ -82,33 +81,21 @@ function logout() {
 }
 
 
-/* Display banner messages */
-function topBar(message) {
-    $("<div />", { class: 'erreur_topbar', text: message }).hide().prependTo("body")
-    .slideDown('fast').delay(5000).fadeOut(function() { $(this).remove(); });
+function errorFunction(resultatXHR, statut, erreur, fctName) {
+    console.log("Error(" + status + ") : " + resultatXHR.responseText);
+    console.log("Error loading "+fctName);
+    topBar(resultatXHR.responseText.erreur, true);
 }
 
 
-function okBar(message) {
-    $("<div />", { class: 'ok_topbar', text: message }).hide().prependTo("body")
-    .slideDown('fast').delay(5000).fadeOut(function() { $(this).remove(); });
-}
-
-
-function validateEmail(email) {
-    var regexp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return regexp.test(email);
-}
-
-function get_ParamGET(param) {
-	var vars = {};
-	window.location.href.replace( location.hash, '' ).replace( 
-		/[?&]+([^=&]+)=?([^&]*)?/gi, // regexp
-		function( m, key, value ) { // callback
-			vars[key] = value !== undefined ? value : '';
-		});
-	if ( param )
-		return vars[param] ? vars[param] : null;	
-	return vars;
+function topBar(message, err, valTime) {
+    if(valTime == undefined)
+        valTime = 5000;
+    if(err)
+        $("<div />", { class: 'erreur_topbar', text: message }).hide().prependTo("body")
+        .slideDown('fast').delay(valTime).fadeOut(function() { $(this).remove(); });
+    else
+        $("<div />", { class: 'ok_topbar', text: message }).hide().prependTo("body")
+        .slideDown('fast').delay(valTime).fadeOut(function() { $(this).remove(); });
 }
 

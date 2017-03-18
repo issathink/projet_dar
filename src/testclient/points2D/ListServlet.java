@@ -23,9 +23,8 @@ public class ListServlet implements IServlet {
 				if (cmd.equals("list")) {
 					response.setContent(list.list().toString());
 				} else if (cmd.equals("p")) {
-					int id = Integer.parseInt(url.getPath().get(1));
-					String coord = url.getPath().get(2);
-
+//					int id = Integer.parseInt(url.getPath().get(1));
+//					String coord = url.getPath().get(2);
 //					if (coord.equals("x"))
 //						response.setContent(list.getX(id) + "");
 //					else if (coord.equals("y"))

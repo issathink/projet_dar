@@ -1,17 +1,16 @@
 package httpserver.urlrouting;
 
-import httpserver.tools.HttpServerRequest;
-import httpserver.tools.HttpServerResponse;
-import httpserver.tools.StatusCodes;
-import httpserver.tools.Util;
-
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import httpserver.tools.HttpServerRequest;
+import httpserver.tools.HttpServerResponse;
+import httpserver.tools.StatusCodes;
+import httpserver.tools.Util;
 
 public class URLRouter {
 	private static final String MAPPING_FILE = "mapping.json";
@@ -52,7 +51,6 @@ public class URLRouter {
 						if(routString[j].startsWith("<") && routString[j].endsWith(">")){
 							// Recuperer la valeur ?
 							String mappingValue = routString[j].substring(1, routString[j].length()-1);
-							System.out.println("Jai ca comme value "+mappingValue);
 							resPathParams.add(Util.getObjectFromMapping(mappingValue, pathParams.get(j)));
 							resPathParamsClass.add(Util.getClassFromMapping(mappingValue));
 							continue;
@@ -108,11 +106,7 @@ public class URLRouter {
 			Object instance = cls.newInstance();
 			Method m = cls.getMethod(methodName, classOfParams);
 			m.invoke(instance, mesObject);
-		} catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return response;

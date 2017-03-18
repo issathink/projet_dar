@@ -86,9 +86,10 @@ public class HttpServerResponse {
 		if(error != -1)
 			return ErrorGenerator.getErrorPage(error); // "HTTP/1.1 " + error + "\n";
 		
+		String content = contentType == null ? "application/json" : contentType;
 		String res = "HTTP/1.1 200 OK\n" 
 				+ "Date: " + getDate() + "\n"
-				+ "Content-Type:" + contentType + "\n\n"
+				+ "Content-Type:" + content + "\n\n"
 				+ getContent();
 		return res;
 	}

@@ -1,5 +1,3 @@
-var m;
-
 isConnected(responseIsConnected);
 
 
@@ -17,17 +15,15 @@ function validate() {
 	pwd  = document.forms["signin"]["pwd"].value;
 
 	document.body.className += "loading";
-	// valMail = validateEmail(mail)
-	var form_length = 4;
+	var formLength = 4;
 
-	if(login.length >= 4 && pwd.length >= 4) {
-		console.log("pwd :" + pwd + " login: " + login);
+	if(login.length >= formLength && pwd.length >= formLength && login.length >= formLength) {
 		signin(login, pwd);
 		$("#error_holder").text("");
-	} else if(login.length < 4) {
+	} else if(login.length < formLength) {
 		$("#error_holder").text("Your login is too short (at least 4 chars).").fadeIn('fast');
 		document.body.className = '';
-	} else if(pwd.length < 4) {
+	} else if(pwd.length < formLength) {
 		$("#error_holder").text("Your password is too short (at least 4 chars).").fadeIn('fast');
 		document.body.className = '';
 	} else {
@@ -38,24 +34,24 @@ function validate() {
 
 
 function signin(login, pwd) {
-	$.ajax({
-		url : "../signin",
-		type : "get",
-		data : "format=json" + "&login=" + login + "&pw=" + pwd,
-		dataType : "json",
-		callback : responseSignin,
-		success : function(response) {
-			responseSignin(response);
-		},
-		error : function(jqXHR, textStatus, errorThrown) {
-			// func_erreur(-1, jqXHR.responseText, errorThrown);
-			document.body.className = '';
-		}
-	});
-	console.log("End login.");
+	var http = new XMLHttpRequest();
+	var url = "http://localhost:8081/appli/signin?login=" + login + "&pwd=" + pwd;
+	var params = "login=" + login + "&pwd=" + pwd;
+	http.open("GET", url, true);
+
+	// Send the proper header information along with the request
+	// http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+	http.onreadystatechange = function() {
+	    if(http.readyState == 4 && http.status == 200) {
+	        responseSignin(http.responseText);
+	    }
+	}
+	http.send();
 }
 
 function responseSignin(response) {
+	var response = JSON.parse(response);
 	$("#error_holder").fadeOut('fast');
 	console.log("Retour: " + JSON.stringify(response));
 

@@ -50,7 +50,6 @@ public class HandleClient extends Thread {
 					if ("".equals(line)) {
 						HttpServerRequest httpRequest = AnalyseRequest.analyseRequest(request);
 						String ctLength = httpRequest.getHeaders().get("Content-Length");
-						System.out.println("**** Jai recu un content length "+ctLength);
 
 						if(ctLength != null) {
 							int contentLength = Integer.parseInt(ctLength);
@@ -59,7 +58,6 @@ public class HandleClient extends Thread {
 								body += (char)val;
 								i++;
 							}
-							System.out.println("A la fin bmon body vaut "+body);
 						}
 						httpRequest.setBody(body);
 						
