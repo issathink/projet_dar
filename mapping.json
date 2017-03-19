@@ -1,8 +1,10 @@
 {
 	"mappings": [
-		{ "method": "exemple.Users.signin", "verb": "GET", "routing": "/appli/signin" },
-		{ "method": "exemple.Users.signup", "verb": "GET", "routing": "/appli/signup" },
+		{ "method": "exemple.Users.signin", "verb": "POST", "routing": "/appli/signin" },
+		{ "method": "exemple.Users.signup", "verb": "POST", "routing": "/appli/signup" },
 		{ "method": "exemple.Users.signout", "verb": "POST", "routing": "/appli/signout" },
+		{ "method": "exemple.Users.connected", "verb": "GET", "routing": "/appli/connected" },
+		{ "method": "exemple.Users.online", "verb": "GET", "routing": "/appli/online" },
 		{ "method": "testclient.ListServlet.list", "verb": "GET", "routing": "/list" },
 		{ "method": "testclient.ListServlet.post", "verb": "POST", "routing": "/p" },
 		{ "method": "testclient.ListPoint2D.getX", "verb": "GET", "routing": "/p/<int>/x" },

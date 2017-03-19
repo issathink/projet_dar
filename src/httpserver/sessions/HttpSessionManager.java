@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class HttpSessionManager {
-	public static final String COOKIE_NAME = "__mein_cook";
+	public static final String COOKIE_NAME = "__oh_my_cookie";
 	private static HashMap<String, HttpSession> sessions;
 	private static HttpSessionManager manager = new HttpSessionManager();
 
@@ -22,6 +22,7 @@ public class HttpSessionManager {
 
 	public synchronized static void addSession(String sessionId, HttpSession session) {
 		sessions.put(sessionId, session);
+		System.out.println("@ ajout: " + sessionId);
 	}
 
 	public synchronized static HttpSession getSession(String sessionId) {
@@ -29,7 +30,7 @@ public class HttpSessionManager {
 	}
 	
 	public static String generateSessionId() {
-		return UUID.randomUUID() + "" +System.currentTimeMillis();
+		return UUID.randomUUID() + "" + System.currentTimeMillis();
 	}
 	
 	public static String getSessionIdFromCookie(String cookie) {

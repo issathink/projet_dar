@@ -2,6 +2,8 @@ package httpserver.tools;
 
 import java.util.Date;
 
+import httpserver.sessions.HttpSessionManager;
+
 public class HttpServerResponse {
 	
 	private StatusCode statusCode;
@@ -11,6 +13,16 @@ public class HttpServerResponse {
 	private String contentType;
 	private Date date;
 	private String content;
+	private String sessionId;
+	
+	public String getSessionId() {
+		return sessionId;
+	}
+
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
+	}
+
 	private int error = -1;
 	
 	public HttpServerResponse() {
@@ -87,7 +99,9 @@ public class HttpServerResponse {
 			return ErrorGenerator.getErrorPage(error); // "HTTP/1.1 " + error + "\n";
 		
 		String content = contentType == null ? "application/json" : contentType;
+		String cookie = sessionId != null ? "Cookie:" + HttpSessionManager.COOKIE_NAME + "=" + sessionId + "\n" : "";
 		String res = "HTTP/1.1 200 OK\n" 
+				+ cookie
 				+ "Date: " + getDate() + "\n"
 				+ "Content-Type:" + content + "\n\n"
 				+ getContent();

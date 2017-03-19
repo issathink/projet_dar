@@ -41,5 +41,10 @@ public class HttpSession {
 	public void setContent(Object content) {
 		this.content = content;
 	}
+	
+	@Override
+	public String toString() {
+		return "LastAccessed: " + lastAccessedTime;
+	}
 
 }

@@ -8,13 +8,15 @@ import httpserver.sessions.HttpSessionManager;
 
 public class RemoveUnusedSessionsCron extends Thread {
 
-	private static int DELAY = 3600000;
+	private static int DELAY = 300000;
 
 	@Override
 	public void run() {
 		 try {
 			 while(true) {
 	            Thread.sleep(DELAY);
+	            System.out.println("/// " + HttpSessionManager.getSessions());
+
 	            ArrayList<String> sessionIds = new ArrayList<>();
 	            for (Entry<String, HttpSession> entry : HttpSessionManager.getSessions().entrySet())
 					if(!entry.getValue().isValid())

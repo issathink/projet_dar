@@ -1,3 +1,2 @@
-yo;test
-ye;test
-tt;test
+azer;azer
+zert;zert

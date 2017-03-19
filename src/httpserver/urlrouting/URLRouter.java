@@ -78,6 +78,7 @@ public class URLRouter {
 			e.printStackTrace();
 			return response;
 		}
+		System.out.println("§ Headers: " + request.getHeaders());
 		return delegate(request, mappingClass, mappingMethod, resPathParams, resPathParamsClass);
 	}
 
@@ -86,6 +87,7 @@ public class URLRouter {
 			ArrayList<Object> pathParams, ArrayList<Class> pathParamsClass) throws SecurityException {
 		System.out.println("delegate mappingClass: " + mappingClass + " methodName: " + methodName + "\npathParams: " + pathParams);
 		HttpServerResponse response = new HttpServerResponse();
+		response.setSessionId(request.getSessionId());
 		
 		if(methodName == null || methodName.equals("")){
 			response.setError(StatusCodes.ErrorNotFound);

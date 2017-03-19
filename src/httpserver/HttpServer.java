@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 
 import httpserver.concurrency.AssocPool;
+import httpserver.concurrency.RemoveUnusedSessionsCron;
 
 public class HttpServer {
 	ServerSocket socket;
@@ -14,6 +15,7 @@ public class HttpServer {
 			socket.setReuseAddress(true);
 			System.out.println("Launching server on : " + port);
 			AssocPool pool = new AssocPool(socket);
+			(new RemoveUnusedSessionsCron()).start();
 			pool.start();
 		} catch (IOException e) {
 			e.printStackTrace();

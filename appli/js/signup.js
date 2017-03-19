@@ -1,14 +1,14 @@
 isConnected(responseIsConnected);
 
 function responseIsConnected(response) {
-	if(response.ok != undefined) {
+	response = JSON.parse(response);
+	if(response.connected == true) {
 		console.log("already connected");
 		window.location.href = "home.html";
 	} else {
 		console.log("Noppppppp!");
 	}
 }
-
 
 function validate() {
 	var formLength = 4;
@@ -59,7 +59,7 @@ function responseSignup(response) {
 		$("#error_holder").fadeOut('fast');
 		$("#error_holder").text(response.message).fadeIn('fast');
 		setCookie(C_NAME, response.key, 30);
-		window.location.href = "home.html"
+		setTimeout(function() { window.location.href = "home.html"; }, 2000);
 	} else {
 		// $("error_holder").text("Unexpected error. Try again").fadeIn('fast');
 		// console.log("What is this: " + JSON.stringify(response));

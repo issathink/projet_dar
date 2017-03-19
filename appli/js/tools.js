@@ -1,8 +1,8 @@
-var C_NAME   = "projet_dar_cookie";
+var C_NAME = "projet_dar_key";
+var C_DATE = "projet_dar_date";
 
 /************************ Cookie mnam mnam mnam ***********************/
 function setCookie(cname, cvalue, minutes) {
-
     var d = new Date();
     d.setTime(d.getTime() + (minutes * 60 * 60 * 1000));
     var expires = "expires=" + d.toUTCString();
@@ -48,29 +48,30 @@ function checkCookie(name) {
 
 
 function isConnected(callBack) {
-    genId = getCookie(C_NAME);
-    if(genId == null) {
+    var thirtyMinutesInMillis = 1800000; 
+    var key = localStorage.getItem(C_NAME);
+    var dateMillis = parseInt(localStorage.getItem(C_DATE), 10);
+    var nowMillis = new Date().getTime();
+    console.log("key: " + key + " dateMillis: " + dateMillis + " nowMillis: " + nowMillis);
+
+    if(key == null || dateMillis == NaN || nowMillis - dateMillis > thirtyMinutesInMillis) {
         console.log("No previous session id.");
-        callBack({});
+        callBack("{}");
         return;
     }
 
-    $.ajax({
-        url : "../isconnected?",
-        type : "get",
-        crossDomain: false,
-        data : "format=json" + "&session_id=" + genId,
-        dataType : "jsonp",
-        success : function(rep) {
-            callBack(rep);
-        },
-        error : function(jqXHR, textStatus, errorThrown) {
-            // We do nothing if there isn't an active session
-            console.log("Error(" + textStatus + ") : " + jqXHR.responseText);
-            console.log("Maybe user is not connected.");
-            callBack({});        
+    console.log("Check if connected: " + key);
+    localStorage.setItem(C_DATE, nowMillis + "");
+    var http = new XMLHttpRequest();
+    var url = "http://localhost:8081/appli/connected?key=" + key;
+    http.open("GET", url, true);
+
+    http.onreadystatechange = function() {
+        if(http.readyState == 4 && http.status == 200) {
+            callBack(http.responseText);
         }
-    });
+    }
+    http.send();
 }
 
 
