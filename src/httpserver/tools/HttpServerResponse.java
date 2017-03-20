@@ -5,7 +5,6 @@ import java.util.Date;
 import httpserver.sessions.HttpSessionManager;
 
 public class HttpServerResponse {
-	
 	private StatusCode statusCode;
 	private String requestUrl;
 	private RequestMethod requestMethod;

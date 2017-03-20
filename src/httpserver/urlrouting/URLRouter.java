@@ -86,14 +86,12 @@ public class URLRouter {
 			e.printStackTrace();
 			return response;
 		}
-		System.out.println("§ Headers: " + request.getHeaders());
 		return delegate(request, mappingClass, mappingMethod, resPathParams, resPathParamsClass);
 	}
 
 	@SuppressWarnings("rawtypes")
 	private static HttpServerResponse delegate(HttpServerRequest request, String mappingClass, String methodName,
 			ArrayList<Object> pathParams, ArrayList<Class> pathParamsClass) throws SecurityException {
-		System.out.println("delegate mappingClass: " + mappingClass + " methodName: " + methodName + "\npathParams: " + pathParams);
 		HttpServerResponse response = new HttpServerResponse();
 		response.setSessionId(request.getSessionId());
 		
@@ -131,25 +129,28 @@ public class URLRouter {
 		for (int i = 0; i < mapping.length(); i++) {
 			try {
 				map = mapping.getJSONObject(i);
-				if(map.has("repository")) {
+				if(map.has("static")) {
 					found  = true;
-					repo = map.getString("repository");
-					byte[] encoded = Files.readAllBytes(Paths.get(repo));
-					response.setContent(new String(encoded));
+					repo = map.getString("static");
 					break;
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		
 		if(found) {
 			repo += "/";
 			if(pathParams.size() > 0) {
 				for(int i=0; i<pathParams.size()-1; i++)
 					repo += pathParams.get(i) + "/";
 				repo += pathParams.get(pathParams.size()-1);
-				response.setContent("");
+				try {
+					byte[] encoded = Files.readAllBytes(Paths.get(repo));
+					response.setContent(new String(encoded));
+					response.setContentType(getContentType(pathParams.get(pathParams.size()-1)));
+				} catch (Exception e) {
+					response.setError(StatusCodes.ErrorNotFound);
+				}
 			} else {
 				response.setError(StatusCodes.ErrorNotFound);
 			}
@@ -157,6 +158,16 @@ public class URLRouter {
 			response.setError(StatusCodes.ErrorNotFound);
 		}
 		return response;
+	}
+
+	private static String getContentType(String filename) {
+		if(filename.endsWith(".html"))
+			return Util.TEXT_HTML;
+		else if(filename.endsWith(".js"))
+			return Util.APPLICATION_JS;
+		else if(filename.endsWith(".css"))
+			return Util.TEXT_CSS;
+		return Util.TEXT_PLAIN;
 	}
 
 	private static boolean staticFiles(String filename) {

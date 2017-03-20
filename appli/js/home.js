@@ -8,8 +8,8 @@ function responseIsConnected(response) {
 		loadConnectedUsers();
 	} else {
 		var errorMsg = "You should be connected to access this page.";
-		topBar(errorMsg, true, 3000);
-		setTimeout(function() { window.location.href = "signin.html"; }, 3000);
+		topBar(errorMsg, true, 2000);
+		setTimeout(function() { window.location.href = "signin.html"; }, 2000);
 		boolIsConnected = false;
 	}
 }
