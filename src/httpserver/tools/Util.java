@@ -5,6 +5,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,6 +51,28 @@ public class Util {
 			return double.class;
 		
 		return String.class;
+	}
+	
+	public static boolean isMatchingFromMapping(String value, String mapping){
+		mapping = mapping.toLowerCase();
+		if(mapping.equals("string"))
+			return value.matches("\\w+");
+		if(mapping.equals("int"))
+			return value.matches("\\d+");
+		if(mapping.equals("double"))
+			return value.matches("\\d+.\\d+");
+		
+		if(mapping.contains("pattern")){
+	        Pattern pattern = Pattern.compile("pattern=(.+)");
+	        Matcher matcher = pattern.matcher(mapping);
+	        while(matcher.find()){
+	            String expr = matcher.group(1);
+	            if(value.matches(expr)){
+	            	return true;
+	            }
+	        }
+		}
+		return false;
 	}
 	
 	public static Object getObjectFromMapping(String mapping, String value){

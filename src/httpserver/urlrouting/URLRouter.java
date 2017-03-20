@@ -59,9 +59,15 @@ public class URLRouter {
 						if(routString[j].startsWith("<") && routString[j].endsWith(">")){
 							// Recuperer la valeur ?
 							String mappingValue = routString[j].substring(1, routString[j].length()-1);
-							resPathParams.add(Util.getObjectFromMapping(mappingValue, pathParams.get(j)));
-							resPathParamsClass.add(Util.getClassFromMapping(mappingValue));
-							continue;
+							// Verifier si routing correspond sinon break
+							if(Util.isMatchingFromMapping(pathParams.get(j), mappingValue)){
+								resPathParams.add(Util.getObjectFromMapping(mappingValue, pathParams.get(j)));
+								resPathParamsClass.add(Util.getClassFromMapping(mappingValue));
+								continue;
+							}else{
+								found = false;
+								break;
+							}
 						}
 						if (!routString[j].equals(pathParams.get(j))) {
 							found = false;
