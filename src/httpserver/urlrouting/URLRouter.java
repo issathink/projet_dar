@@ -1,16 +1,18 @@
 package httpserver.urlrouting;
 
+import httpserver.tools.HttpServerRequest;
+import httpserver.tools.HttpServerResponse;
+import httpserver.tools.StatusCodes;
+import httpserver.tools.Util;
+
 import java.lang.reflect.Method;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import httpserver.tools.HttpServerRequest;
-import httpserver.tools.HttpServerResponse;
-import httpserver.tools.StatusCodes;
-import httpserver.tools.Util;
 
 public class URLRouter {
 	private static final String MAPPING_FILE = "mapping.json";
@@ -19,8 +21,10 @@ public class URLRouter {
 	@SuppressWarnings("rawtypes")
 	public static HttpServerResponse route(HttpServerRequest request) {
 		String mappingClass = "", mappingMethod = "";
-		mapping = Util.getMapping(MAPPING_FILE);
+		if(mapping == null)
+			mapping = Util.getMapping(MAPPING_FILE);
 		URL url = request.getUrl();
+		System.out.println("Url paths: " + url.getPath());
 		HttpServerResponse response = new HttpServerResponse();
 		response.setError(StatusCodes.ErrorBadRequest);
 
@@ -30,6 +34,10 @@ public class URLRouter {
 		ArrayList<String> pathParams = url.getPath();
 		ArrayList<Object> resPathParams = new ArrayList<>();
 		ArrayList<Class> resPathParamsClass = new ArrayList<>();
+		
+		if(URLRouter.staticFiles(pathParams.get(pathParams.size()-1))) {
+			return handleStaticFiles(pathParams, mapping);
+		}
 
 		try {
 			JSONObject map;
@@ -112,6 +120,53 @@ public class URLRouter {
 			e.printStackTrace();
 		}
 		return response;
+	}
+
+	private static HttpServerResponse handleStaticFiles(ArrayList<String> pathParams, JSONArray mapping) {
+		HttpServerResponse response = new HttpServerResponse();
+		JSONObject map;
+		boolean found = false;
+		String repo = null;
+		
+		for (int i = 0; i < mapping.length(); i++) {
+			try {
+				map = mapping.getJSONObject(i);
+				if(map.has("repository")) {
+					found  = true;
+					repo = map.getString("repository");
+					byte[] encoded = Files.readAllBytes(Paths.get(repo));
+					response.setContent(new String(encoded));
+					break;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		if(found) {
+			repo += "/";
+			if(pathParams.size() > 0) {
+				for(int i=0; i<pathParams.size()-1; i++)
+					repo += pathParams.get(i) + "/";
+				repo += pathParams.get(pathParams.size()-1);
+				response.setContent("");
+			} else {
+				response.setError(StatusCodes.ErrorNotFound);
+			}
+		} else {
+			response.setError(StatusCodes.ErrorNotFound);
+		}
+		return response;
+	}
+
+	private static boolean staticFiles(String filename) {
+		if(filename.endsWith(".html"))
+			return true;
+		else if(filename.endsWith(".js"))
+			return true;
+		else if(filename.endsWith(".css"))
+			return true;
+		return false;
 	}
 
 }
