@@ -55,9 +55,13 @@ function signup(login, pwd, repwd) {
 
 function responseSignup(response) {
 	var response = JSON.parse(response);
+	var nowMillis = new Date().getTime();
+
 	if(response.ok != undefined) {
 		$("#error_holder").fadeOut('fast');
 		$("#error_holder").text(response.message).fadeIn('fast');
+		localStorage.setItem(C_NAME, response.key);
+		localStorage.setItem(C_DATE, nowMillis + "");
 		setCookie(C_NAME, response.key, 30);
 		setTimeout(function() { window.location.href = "home.html"; }, 2000);
 	} else {
